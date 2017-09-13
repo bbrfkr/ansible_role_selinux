@@ -1,0 +1,36 @@
+---
+- name: check present state of selinux
+  shell: getenforce
+  changed_when: false
+  failed_when: false
+  register: reg_check_state
+  become: yes
+
+- name: change selinux state
+  selinux:
+    policy: targeted
+    state: "{{ selinux.state }}"
+  register: reg_change_state
+  become: yes
+
+- block:
+  - name: check restoring context is necessary
+    debug:
+      msg: "restoring context is necessary"
+    changed_when: true
+    notify: restore context
+    when: reg_check_state.stdout == "Disabled"
+
+  - name: check rebooting target is necessary
+    debug:
+      msg: "rebooting target is necessary!!"
+    changed_when: true
+    notify:
+      - reboot target
+      - wait for port being down
+      - wait for port being up
+    when:
+      - reg_check_state.stdout == "Disabled" or
+        selinux.state == "disabled"
+  when: reg_change_state | changed
+

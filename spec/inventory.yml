@@ -1,0 +1,24 @@
+---
+- conn_name: target00
+  conn_host: 192.168.1.100
+  conn_port: 22
+  conn_user: vagrant
+  conn_pass: vagrant
+  conn_idkey:
+  sudo_pass:
+
+- conn_name: target01
+  conn_host: 192.168.1.101
+  conn_port: 22
+  conn_user: vagrant
+  conn_pass: vagrant
+  conn_idkey:
+  sudo_pass:
+
+- conn_name: target05
+  conn_host: 192.168.1.105
+  conn_port: 22
+  conn_user: vagrant
+  conn_pass: vagrant
+  conn_idkey:
+  sudo_pass:
